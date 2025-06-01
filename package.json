@@ -1,24 +1,39 @@
 {
-    "name": "tic-tac-toe",
-    "version": "1.0.0",
-    "description": "Tic Tac Toe game made using React with the tutorial on react.dev.",
-    "main": "/src/index.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/bqbbo/tic-tac-toe.git"
-    },
-    "author": "bqbbo",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/bqbbo/tic-tac-toe/issues"
-    },
-    "homepage": "https://github.com/bqbbo/tic-tac-toe#readme",
-    "dependencies": {
-        "react": "^19.1.0",
-        "react-dom": "^19.1.0",
-        "react-scripts": "^5.0.1"
-    }
+  "name": "tic-tac-toe",
+  "version": "1.0.0",
+  "description": "Tic Tac Toe game made using React with the tutorial on react.dev.",
+  "main": "/src/index.js",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bqbbo/tic-tac-toe.git"
+  },
+  "author": "bqbbo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bqbbo/tic-tac-toe/issues"
+  },
+  "homepage": "https://github.com/bqbbo/tic-tac-toe#readme",
+  "dependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-scripts": "^5.0.1"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }
