@@ -21,7 +21,7 @@ export default function App() {
         if (history.length > 1) {
             const newHistory = history.slice(0, -1);
             setHistory(newHistory);
-            setIsXTurn(newHistory.length % 2 === 1);
+            setIsXTurn(!(newHistory.length % 2 === 0));
         }
     }
 

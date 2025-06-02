@@ -17,6 +17,24 @@ export default function Board({ isXTurn, squares, onPlay }) {
         onPlay(newSquares);
     }
 
+    function renderSquare(i) {
+        return (
+            <Square clickFunction={() => handleClick(i)} value={squares[i]} />
+        );
+    }
+
+    function renderRow(startIndex) {
+        return (
+            <div className="board-row">
+                {[0, 1, 2].map((offset) => renderSquare(startIndex + offset))}
+            </div>
+        );
+    }
+
+    function renderRows() {
+        return [0, 3, 6].map((startIndex) => renderRow(startIndex));
+    }
+
     const winner = calculateWinner(squares);
     let status;
     if (winner) {
@@ -30,48 +48,7 @@ export default function Board({ isXTurn, squares, onPlay }) {
     return (
         <>
             <div className="status">{status}</div>
-            <div className="board-row">
-                <Square
-                    clickFunction={() => handleClick(0)}
-                    value={squares[0]}
-                />
-                <Square
-                    clickFunction={() => handleClick(1)}
-                    value={squares[1]}
-                />
-                <Square
-                    clickFunction={() => handleClick(2)}
-                    value={squares[2]}
-                />
-            </div>
-            <div className="board-row">
-                <Square
-                    clickFunction={() => handleClick(3)}
-                    value={squares[3]}
-                />
-                <Square
-                    clickFunction={() => handleClick(4)}
-                    value={squares[4]}
-                />
-                <Square
-                    clickFunction={() => handleClick(5)}
-                    value={squares[5]}
-                />
-            </div>
-            <div className="board-row">
-                <Square
-                    clickFunction={() => handleClick(6)}
-                    value={squares[6]}
-                />
-                <Square
-                    clickFunction={() => handleClick(7)}
-                    value={squares[7]}
-                />
-                <Square
-                    clickFunction={() => handleClick(8)}
-                    value={squares[8]}
-                />
-            </div>
+            <div className="board">{renderRows()}</div>
         </>
     );
 }
