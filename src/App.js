@@ -1,100 +1,55 @@
 import { useState } from "react";
-import Square from "./Square";
 
-function calculateWinner(squares) {
-    const lines = [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        [0, 4, 8],
-        [2, 4, 6],
-    ];
-    for (let i = 0; i < lines.length; i++) {
-        const [a, b, c] = lines[i];
-        if (
-            squares[a] &&
-            squares[a] === squares[b] &&
-            squares[a] === squares[c]
-        ) {
-            return squares[a];
-        }
-    }
-    return null;
-}
+import Board from "./Board";
+import GameButton from "./GameButton";
 
-export default function Board() {
-    const [squares, setSquares] = useState(Array(9).fill(null));
+export default function App() {
     const [isXTurn, setIsXTurn] = useState(true);
+    const [history, setHistory] = useState([Array(9).fill(null)]);
+    const [previousHistory, setPreviousHistory] = useState([
+        Array(9).fill(null),
+    ]);
+    const currentSquares = history[history.length - 1];
 
-    function handleClick(i) {
-        const newBoard = squares.slice();
-        if (calculateWinner(newBoard) || newBoard[i]) {
-            return;
-        }
-        newBoard[i] = isXTurn ? "X" : "O";
-
-        setSquares(newBoard);
+    function handlePlay(newBoard) {
         setIsXTurn(!isXTurn);
+        setHistory([...history, newBoard]);
+        setPreviousHistory([...history, newBoard]);
     }
 
-    const winner = calculateWinner(squares);
-    let status;
-    if (winner) {
-        status = `Winner: ${winner}`;
-    } else if (squares.every((square) => square)) {
-        status = "It's a draw!";
-    } else {
-        status = `Next player: ${isXTurn ? "X" : "O"}`;
+    function undo() {
+        if (history.length > 1) {
+            const newHistory = history.slice(0, -1);
+            setHistory(newHistory);
+            setIsXTurn(newHistory.length % 2 === 1);
+        }
+    }
+
+    function redo() {
+        if (previousHistory.length > history.length) {
+            const newBoard = previousHistory[history.length];
+            setHistory([...history, newBoard]);
+            setIsXTurn(!isXTurn);
+        }
     }
 
     return (
-        <>
-            <div className="status">{status}</div>
-            <div className="board-row">
-                <Square
-                    clickFunction={() => handleClick(0)}
-                    value={squares[0]}
-                />
-                <Square
-                    clickFunction={() => handleClick(1)}
-                    value={squares[1]}
-                />
-                <Square
-                    clickFunction={() => handleClick(2)}
-                    value={squares[2]}
+        <div className="game">
+            <div className="header">
+                <h1>Tic Tac Toe</h1>
+                <p>
+                    Created by <a href="https://github.com/bqbbo">bqbbo</a>
+                </p>
+            </div>
+            <div className="game-board">
+                <GameButton name="Undo" gameFunction={undo} />
+                <GameButton name="Redo" gameFunction={redo} />
+                <Board
+                    isXTurn={isXTurn}
+                    squares={currentSquares}
+                    onPlay={handlePlay}
                 />
             </div>
-            <div className="board-row">
-                <Square
-                    clickFunction={() => handleClick(3)}
-                    value={squares[3]}
-                />
-                <Square
-                    clickFunction={() => handleClick(4)}
-                    value={squares[4]}
-                />
-                <Square
-                    clickFunction={() => handleClick(5)}
-                    value={squares[5]}
-                />
-            </div>
-            <div className="board-row">
-                <Square
-                    clickFunction={() => handleClick(6)}
-                    value={squares[6]}
-                />
-                <Square
-                    clickFunction={() => handleClick(7)}
-                    value={squares[7]}
-                />
-                <Square
-                    clickFunction={() => handleClick(8)}
-                    value={squares[8]}
-                />
-            </div>
-        </>
+        </div>
     );
 }
